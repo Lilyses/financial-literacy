@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Spend Money Wisely As A Student</title>
+<style>
+:root{
+  --cream:#FAF6E9; --ink:#1F2D20; --moss:#5C7A4A; --moss-dark:#3E5631;
+  --gold:#E8B339; --gold-dark:#C8901E; --leaf:#8FAE6E; --coin:#F2C14E;
+  --paper:#FFFDF6; --line:#D8CDA8; --good:#4C8C5B; --bad:#C65B4E;
+  --font-display:Georgia,'Times New Roman',serif;
+  --font-body:'Inter',-apple-system,Helvetica,Arial,sans-serif;
+  --font-mono:'Courier New',monospace;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-height:100vh;overflow-x:hidden;}
+
+/* ── ANIMATED FLOATING COINS (Home background) ── */
+.float-coins{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:hidden;z-index:0;}
+.fcoin{position:absolute;font-size:1.6rem;animation:floatUp linear infinite;opacity:0;}
+@keyframes floatUp{
+  0%{transform:translateY(100%) rotate(0deg);opacity:0;}
+  10%{opacity:.5;}
+  90%{opacity:.3;}
+  100%{transform:translateY(-120px) rotate(360deg);opacity:0;}
+}
+
+/* ── PULSE ANIMATION ── */
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.06);}}
+@keyframes slideIn{from{opacity:0;transform:translateX(-20px);}to{opacity:1;transform:translateX(0);}}
+@keyframes bounceIn{0%{transform:scale(.3);opacity:0;}60%{transform:scale(1.08);}100%{transform:scale(1);opacity:1;}}
+@keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+@keyframes shimmer{0%{background-position:-200% 0;}100%{background-position:200% 0;}}
+@keyframes countUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+@keyframes wiggle{0%,100%{transform:rotate(-5deg);}50%{transform:rotate(5deg);}}
+
+/* ── AUDIO PLAYER ── */
+.audio-bar{
+  position:fixed;bottom:70px;right:20px;z-index:40;
+  background:var(--paper);border:2px solid var(--ink);
+  border-radius:40px;padding:8px 14px;display:flex;align-items:center;gap:10px;
+  box-shadow:3px 3px 0 var(--ink);font-size:0.8rem;font-family:var(--font-mono);
+}
+.audio-btn{
+  background:none;border:none;cursor:pointer;font-size:1.3rem;
+  transition:transform .2s;
+}
+.audio-btn:hover{transform:scale(1.2);}
+.audio-label{font-size:0.72rem;color:var(--moss-dark);}
+.audio-wave{display:flex;gap:2px;align-items:center;height:16px;}
+.audio-wave span{
+  display:inline-block;width:3px;background:var(--moss);border-radius:2px;
+  animation:wave .8s ease-in-out infinite;
+}
+.audio-wave span:nth-child(2){animation-delay:.1s;}
+.audio-wave span:nth-child(3){animation-delay:.2s;}
+.audio-wave span:nth-child(4){animation-delay:.3s;}
+.audio-wave.paused span{animation-play-state:paused;height:4px!important;}
+@keyframes wave{
+  0%,100%{height:4px;}50%{height:14px;}
+}
+
+/* ── APP SHELL ── */
+.app{max-width:1100px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;position:relative;}
+
+/* ── HEADER ── */
+header.topbar{padding:20px 28px 14px;border-bottom:3px solid var(--ink);background:var(--paper);}
+.brand-row{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.brand{font-family:var(--font-display);font-weight:700;font-size:1.4rem;cursor:pointer;display:flex;align-items:center;gap:8px;}
+.coin-anim{width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--coin),var(--gold-dark));border:2px solid var(--ink);animation:pulse 2s infinite;}
+.progress-tag{font-family:var(--font-mono);font-size:0.7rem;color:var(--moss-dark);background:#E7EFD9;border:1px solid var(--moss);padding:3px 10px;border-radius:20px;}
+nav.navbar{margin-top:14px;display:flex;gap:7px;flex-wrap:wrap;}
+nav.navbar button{
+  font-family:var(--font-body);font-weight:600;font-size:0.75rem;letter-spacing:.02em;
+  text-transform:uppercase;border:1.5px solid var(--ink);background:var(--paper);
+  color:var(--ink);padding:7px 13px;border-radius:7px;cursor:pointer;
+  transition:transform .12s,background .15s;
+}
+nav.navbar button:hover{transform:translateY(-2px);background:#FFF7DC;}
+nav.navbar button.active{background:var(--ink);color:var(--cream);}
+
+/* ── MAIN ── */
+main{flex:1;padding:36px 28px 28px;position:relative;}
+.panel{display:none;animation:fadein .3s ease;}
+.panel.active{display:block;}
+@keyframes fadein{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+.eyebrow{font-family:var(--font-mono);text-transform:uppercase;font-size:.7rem;letter-spacing:.12em;color:var(--gold-dark);margin:0 0 6px;}
+h1.page-title{font-family:var(--font-display);font-size:2.4rem;line-height:1.05;margin:0 0 26px;font-weight:700;border-bottom:3px solid var(--ink);padding-bottom:16px;}
+h2.section-title{font-family:var(--font-display);font-size:1.4rem;margin:0 0 12px;font-weight:700;}
+p{line-height:1.65;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.card{background:var(--paper);border:2px solid var(--ink);border-radius:12px;padding:20px;}
+.card.moss{background:#5C7A4A;color:#fff;}
+.card.gold{background:var(--gold);}
+ul.clean{margin:0;padding-left:20px;}
+ul.clean li{margin-bottom:8px;line-height:1.55;}
+
+/* ── HOME ── */
+.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:36px;align-items:center;padding:10px 0 20px;position:relative;z-index:1;}
+.hero-quote{font-family:var(--font-display);font-size:2rem;line-height:1.25;margin:0 0 20px;}
+.hero-quote em{color:var(--moss-dark);font-style:italic;}
+.start-btn{font-family:var(--font-body);font-weight:700;font-size:1rem;background:var(--gold);border:2px solid var(--ink);color:var(--ink);padding:13px 24px;border-radius:10px;cursor:pointer;box-shadow:4px 4px 0 var(--ink);transition:transform .12s,box-shadow .12s;}
+.start-btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink);}
+
+/* SVG hero illustration */
+.hero-illo{position:relative;height:240px;display:flex;align-items:center;justify-content:center;}
+.hero-illo svg{width:100%;height:100%;}
+
+.home-cards{margin-top:32px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px;position:relative;z-index:1;}
+.home-card{background:var(--paper);border:2px solid var(--ink);border-radius:10px;padding:16px;cursor:pointer;transition:transform .15s;position:relative;overflow:hidden;}
+.home-card::before{content:'';position:absolute;inset:0;background:var(--gold);opacity:0;transition:opacity .2s;}
+.home-card:hover{transform:translateY(-5px);}
+.home-card:hover::before{opacity:0.15;}
+.home-card .num{font-family:var(--font-mono);font-size:.7rem;color:var(--gold-dark);}
+.home-card .ico{font-size:1.8rem;margin:6px 0;}
+.home-card .lbl{font-weight:700;font-size:.92rem;}
+
+/* ── IMAGE PANELS (still images) ── */
+.img-banner{width:100%;border-radius:12px;border:2px solid var(--ink);overflow:hidden;margin:20px 0;background:linear-gradient(135deg,#E7EFD9,#FFF7DC);display:flex;align-items:center;justify-content:center;min-height:140px;position:relative;}
+.img-banner svg{width:100%;height:140px;}
+
+/* ── BUDGET ── */
+.budget-bar{display:flex;height:44px;border-radius:8px;overflow:hidden;border:2px solid var(--ink);margin:16px 0;}
+.budget-bar div{display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.82rem;color:#fff;transition:width .8s ease;}
+.seg-needs{background:var(--moss-dark);width:50%;}
+.seg-wants{background:var(--coin);width:30%;color:var(--ink)!important;}
+.seg-savings{background:var(--good);width:20%;}
+.step-list{counter-reset:steps;list-style:none;padding:0;margin:0;}
+.step-list li{counter-increment:steps;position:relative;padding:12px 0 12px 42px;border-bottom:1px dashed var(--line);animation:slideIn .4s ease both;}
+.step-list li::before{content:counter(steps);position:absolute;left:0;top:10px;width:26px;height:26px;background:var(--gold);border:2px solid var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:.78rem;font-weight:700;}
+
+/* YouTube embed section */
+.yt-section{margin-top:30px;}
+
+.yt-frame-wrap{
+  border:3px solid var(--ink);border-radius:12px;overflow:hidden;background:#000;
+  position:relative;padding-top:56.25%;/* 16:9 */
+}
+.yt-frame-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;}
+.yt-placeholder{
+  border:3px dashed var(--moss);border-radius:12px;padding:40px 20px;
+  text-align:center;background:#F0F7E8;
+}
+.yt-placeholder .play-circle{
+  width:70px;height:70px;background:var(--bad);border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:2rem;margin-bottom:12px;border:3px solid var(--ink);
+  animation:pulse 1.6s infinite;
+}
+
+/* ── NEEDS VS WANTS ── */
+.nw-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:22px;}
+.nw-col{border:2px solid var(--ink);border-radius:12px;overflow:hidden;}
+.nw-head{padding:13px 16px;font-family:var(--font-display);font-weight:700;font-size:1.15rem;}
+.nw-head.need{background:var(--good);color:#fff;}
+.nw-head.want{background:var(--coin);color:var(--ink);}
+.nw-list{list-style:none;margin:0;padding:12px 16px;background:var(--paper);}
+.nw-list li{padding:7px 0;border-bottom:1px dashed var(--line);font-size:.93rem;}
+.nw-list li:last-child{border-bottom:none;}
+.test-box{text-align:center;border:3px dashed var(--ink);border-radius:14px;padding:22px;background:#FFF7DC;}
+.test-box .q{font-family:var(--font-display);font-size:1.25rem;margin-bottom:10px;}
+.test-flow{display:flex;justify-content:center;gap:30px;margin-top:12px;flex-wrap:wrap;}
+.test-flow div{font-family:var(--font-mono);font-size:.85rem;}
+
+/* ── MISTAKES ── */
+.mistake-card{border:2px solid var(--ink);border-radius:12px;padding:16px 18px;margin-bottom:12px;background:var(--paper);display:flex;gap:14px;transition:transform .15s;}
+.mistake-card:hover{transform:translateX(4px);}
+.mistake-num{font-family:var(--font-display);font-size:1.9rem;font-weight:700;color:var(--bad);min-width:42px;}
+.mistake-card h3{margin:0 0 5px;font-size:1rem;}
+.mistake-card .sol{color:var(--moss-dark);font-weight:600;font-size:.88rem;}
+.ba-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;}
+.ba-col{border:2px solid var(--ink);border-radius:10px;padding:14px;}
+.ba-col.before{background:#F6E3DE;}
+.ba-col.after{background:#E1EEDB;}
+
+/* ── TIPS ── */
+.tip-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;}
+.tip-card{border:2px solid var(--ink);border-radius:12px;padding:14px;background:var(--paper);text-align:center;transition:transform .15s;}
+.tip-card:hover{transform:translateY(-4px);background:#FFF7DC;}
+.tip-card .tipnum{font-family:var(--font-mono);color:var(--gold-dark);font-size:.72rem;}
+.tip-card .tipico{font-size:2rem;margin:8px 0;display:block;animation:wiggle 3s ease-in-out infinite;}
+.bonus-box{background:#FFF1D6;border:2px dashed var(--gold-dark);border-radius:12px;padding:16px 20px;}
+
+/* ── QUIZ ── */
+.quiz-wrap{max-width:700px;margin:0 auto;}
+.quiz-status{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;font-family:var(--font-mono);font-size:.88rem;}
+.lives span{font-size:1.1rem;}
+.quiz-card{border:2px solid var(--ink);border-radius:14px;padding:24px;background:var(--paper);}
+.quiz-q{font-family:var(--font-display);font-size:1.25rem;margin-bottom:16px;}
+.quiz-opts{display:flex;flex-direction:column;gap:9px;}
+.quiz-opt{text-align:left;padding:11px 15px;border:2px solid var(--ink);border-radius:8px;background:#fff;cursor:pointer;font-size:.93rem;transition:background .15s,transform .1s;}
+.quiz-opt:hover{background:#FFF7DC;transform:translateX(3px);}
+.quiz-opt.correct{background:#D7EDD0;border-color:var(--good);}
+.quiz-opt.wrong{background:#F5D7D2;border-color:var(--bad);}
+.quiz-feedback{margin-top:12px;font-weight:700;min-height:22px;}
+.quiz-progress{font-family:var(--font-mono);font-size:.78rem;color:var(--moss-dark);margin-bottom:5px;}
+.quiz-end{text-align:center;padding:10px 0;}
+.quiz-end .score{font-family:var(--font-display);font-size:3rem;margin:8px 0;animation:bounceIn .5s ease;}
+.retry-btn{font-weight:700;background:var(--gold);border:2px solid var(--ink);padding:10px 20px;border-radius:8px;cursor:pointer;margin-top:12px;box-shadow:3px 3px 0 var(--ink);}
+.confetti-wrap{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:60;}
+.confetti-piece{position:absolute;width:10px;height:10px;border-radius:2px;animation:confettiDrop linear forwards;}
+@keyframes confettiDrop{0%{transform:translateY(-10px) rotate(0);opacity:1;}100%{transform:translateY(100vh) rotate(720deg);opacity:0;}}
+
+/* ── SUPPORT ── */
+.support-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.support-card{border:2px solid var(--ink);border-radius:14px;padding:22px;background:var(--paper);}
+.support-card.help-card{background:#F0F7E8;border-left:6px solid var(--moss);}
+.support-card.faq-card{background:#FFFBEF;border-left:6px solid var(--gold);}
+.support-card-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:10px;border-bottom:2px dashed var(--line);}
+.support-icon{font-size:1.5rem;}
+.how-to-box{background:#fff;border:2px solid var(--ink);border-radius:10px;padding:14px;margin-top:10px;}
+.how-to-label{font-family:var(--font-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--moss-dark);margin-bottom:8px;}
+.how-to-list{margin:0;padding-left:18px;}
+.how-to-list li{padding:4px 0;border-bottom:1px dashed var(--line);font-size:.88rem;}
+.how-to-list li:last-child{border-bottom:none;}
+.faq-item{border-bottom:1px solid var(--line);padding:12px 0;}
+.faq-item .q{font-weight:700;margin-bottom:5px;}
+.contacts-box{background:var(--paper);border:2px solid var(--ink);border-radius:14px;padding:20px;margin-top:24px;}
+.contact-member{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line);}
+.contact-member:last-child{border-bottom:none;}
+.contact-avatar{width:38px;height:38px;border-radius:50%;background:var(--leaf);border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex-shrink:0;}
+.contact-info .cname{font-weight:700;font-size:.9rem;}
+.contact-info .cemail a{color:var(--moss-dark);font-size:.83rem;text-decoration:none;font-family:var(--font-mono);}
+.contact-info .cemail a:hover{text-decoration:underline;}
+
+/* ── ABOUT ── */
+.team-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:22px;}
+.team-card{text-align:center;}
+.team-photo{
+  width:90px;height:90px;border-radius:50%;border:3px solid var(--ink);
+  background:var(--leaf);display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-size:1.6rem;color:#fff;font-weight:700;
+  overflow:hidden;margin:0 auto 10px;position:relative;
+}
+.team-photo .member-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%;}
+.team-photo .initials{position:relative;z-index:1;}
+.team-card .name{font-weight:700;font-size:.8rem;line-height:1.3;}
+.team-card .role{font-size:.73rem;color:var(--moss-dark);margin-top:3px;}
+.team-card .sid{font-size:.68rem;color:#999;margin-top:2px;font-family:var(--font-mono);}
+
+/* ── FOOTER ── */
+footer.footbar{border-top:3px solid var(--ink);padding:12px 28px;display:flex;justify-content:space-between;align-items:center;font-family:var(--font-mono);font-size:.76rem;flex-wrap:wrap;gap:8px;background:var(--paper);}
+.footbar .grp{display:flex;gap:12px;align-items:center;}
+.footbar button{background:none;border:none;cursor:pointer;font-family:var(--font-mono);font-size:.76rem;color:var(--ink);text-transform:uppercase;letter-spacing:.05em;}
+.footbar button:hover{color:var(--gold-dark);}
+.footbar button:disabled{opacity:.3;cursor:default;}
+
+/* ── HELP MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(31,45,32,.55);display:none;align-items:center;justify-content:center;z-index:50;}
+.modal-overlay.active{display:flex;}
+.modal-box{background:var(--cream);border:2px solid var(--ink);border-radius:14px;max-width:420px;width:90%;padding:24px 26px;position:relative;}
+.modal-box h3{font-family:var(--font-display);margin-top:0;}
+.modal-close{position:absolute;top:12px;right:14px;background:none;border:none;font-size:1.2rem;cursor:pointer;}
+.modal-box ol{padding-left:18px;line-height:1.7;}
+
+@media(max-width:760px){
+  .hero{grid-template-columns:1fr;}
+  .home-cards{grid-template-columns:repeat(2,1fr);}
+  .two-col,.nw-grid,.ba-grid,.support-grid{grid-template-columns:1fr;}
+  .tip-grid{grid-template-columns:1fr 1fr;}
+  .team-grid{grid-template-columns:repeat(2,1fr);}
+  h1.page-title{font-size:1.8rem;}
+  .audio-bar{bottom:65px;right:10px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ── FLOATING AUDIO PLAYER ── -->
+<div class="audio-bar" id="audioBar">
+  <button class="audio-btn" id="audioToggle" title="Toggle background music">🎵</button>
+  <div>
+    <div class="audio-label">Study Beats</div>
+    <audio id="studyAudio" src="cutemusic.mp3" loop autoplay muted></audio>
+    <div class="audio-wave" id="audioWave">
+      <span style="height:6px"></span><span style="height:10px"></span>
+      <span style="height:14px"></span><span style="height:8px"></span>
+    </div>
+  </div>
+</div>
+
+<div class="confetti-wrap" id="confettiWrap"></div>
+
+<div class="app">
+  <header class="topbar">
+    <div class="brand-row">
+      <div class="brand" data-go="home"><span class="coin-anim"></span>How to Spend Money Wisely As A Student</div>
+      <span class="progress-tag" id="progressTag">LESSON 1 / 9 · HOME</span>
+    </div>
+    <nav class="navbar" id="navbar">
+      <button data-page="home">Home</button>
+      <button data-page="intro">Intro</button>
+      <button data-page="needswants">Needs vs Wants</button>
+      <button data-page="mistakes">Money Management</button>
+      <button data-page="budget">Budget</button>
+      <button data-page="tips">Tips</button>
+      <button data-page="quiz">Quiz / Game</button>
+      <button data-page="support">User Support</button>
+      <button data-page="about">About Us</button>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ══ HOME ══ -->
+    <section class="panel" data-page="home">
+      <!-- Floating coins background -->
+      <div class="float-coins" id="floatCoins"></div>
+
+      <div class="hero">
+        <div>
+          <p class="eyebrow">IML513 Courseware · Group 2 · ELEK B</p>
+          <h1 class="hero-quote">"Learn to control your <em>money</em>, not let money control you."</h1>
+          <p>A short, practical course on budgeting, needs vs. wants, and smart spending — for students who want their allowance to actually last the month.</p>
+          <button class="start-btn" data-go="intro">▶ Start Learning</button>
+        </div>
+        <div class="hero-illo">
+          <!-- Animated SVG illustration -->
+          <svg viewBox="0 0 300 240" xmlns="http://www.w3.org/2000/svg">
+            <!-- Piggy bank body -->
+            <ellipse cx="155" cy="150" rx="75" ry="60" fill="#F2C14E" stroke="#1F2D20" stroke-width="3"/>
+            <!-- Snout -->
+            <ellipse cx="220" cy="158" rx="22" ry="18" fill="#E8A030" stroke="#1F2D20" stroke-width="2.5"/>
+            <ellipse cx="215" cy="156" rx="5" ry="6" fill="#1F2D20" opacity=".3"/>
+            <ellipse cx="225" cy="156" rx="5" ry="6" fill="#1F2D20" opacity=".3"/>
+            <!-- Eye -->
+            <circle cx="195" cy="128" r="6" fill="#fff" stroke="#1F2D20" stroke-width="2"/>
+            <circle cx="196" cy="127" r="3" fill="#1F2D20"/>
+            <!-- Ear -->
+            <ellipse cx="145" cy="100" rx="16" ry="22" fill="#F2C14E" stroke="#1F2D20" stroke-width="2.5" transform="rotate(-15 145 100)"/>
+            <!-- Coin slot -->
+            <rect x="140" y="94" width="26" height="5" rx="2.5" fill="#1F2D20"/>
+            <!-- Legs -->
+            <rect x="120" y="200" width="20" height="26" rx="5" fill="#E8A030" stroke="#1F2D20" stroke-width="2"/>
+            <rect x="148" y="200" width="20" height="26" rx="5" fill="#E8A030" stroke="#1F2D20" stroke-width="2"/>
+            <rect x="176" y="200" width="20" height="26" rx="5" fill="#E8A030" stroke="#1F2D20" stroke-width="2"/>
+            <!-- Tail -->
+            <path d="M80 150 Q55 130 65 110 Q75 90 60 80" fill="none" stroke="#1F2D20" stroke-width="3" stroke-linecap="round"/>
+            <!-- Animated coin dropping -->
+            <g id="dropCoin" style="animation:floatCoin 2.4s ease-in-out infinite;">
+              <circle cx="155" cy="60" r="14" fill="#F2C14E" stroke="#1F2D20" stroke-width="2"/>
+              <text x="155" y="65" text-anchor="middle" font-size="12" font-weight="700" fill="#1F2D20">RM</text>
+            </g>
+            <style>
+              @keyframes floatCoin{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
+            </style>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Still image banner -->
+      <div class="img-banner">
+        <svg viewBox="0 0 1000 140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+          <rect width="1000" height="140" fill="none"/>
+          <!-- Decorative coins row -->
+          <g opacity=".7">
+            <circle cx="60" cy="70" r="38" fill="#F2C14E" stroke="#1F2D20" stroke-width="2.5"/>
+            <text x="60" y="76" text-anchor="middle" font-size="22" fill="#1F2D20" font-weight="700">RM</text>
+            <circle cx="170" cy="70" r="38" fill="#E8B339" stroke="#1F2D20" stroke-width="2.5"/>
+            <text x="170" y="76" text-anchor="middle" font-size="22" fill="#1F2D20" font-weight="700">$</text>
+            <circle cx="280" cy="70" r="38" fill="#5C7A4A" stroke="#1F2D20" stroke-width="2.5"/>
+            <text x="280" y="76" text-anchor="middle" font-size="22" fill="#fff" font-weight="700">💰</text>
+          </g>
+          <!-- Big slogan text -->
+          <text x="500" y="58" text-anchor="middle" font-family="Georgia,serif" font-size="32" font-weight="700" fill="#1F2D20">💡 Smart Money = Bright Future</text>
+          <text x="500" y="98" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" fill="#3E5631">Plan · Save · Spend wisely · Repeat</text>
+          <!-- Right coins -->
+          <g opacity=".7">
+            <circle cx="720" cy="70" r="38" fill="#F2C14E" stroke="#1F2D20" stroke-width="2.5"/>
+            <text x="720" y="76" text-anchor="middle" font-size="22" fill="#1F2D20" font-weight="700">📈</text>
+            <circle cx="830" cy="70" r="38" fill="#E8B339" stroke="#1F2D20" stroke-width="2.5"/>
+            <text x="830" y="76" text-anchor="middle" font-size="22" fill="#1F2D20" font-weight="700">🏦</text>
+            <circle cx="940" cy="70" r="38" fill="#5C7A4A" stroke="#1F2D20" stroke-width="2.5"/>
+            <text x="940" y="76" text-anchor="middle" font-size="22" fill="#fff" font-weight="700">✅</text>
+          </g>
+        </svg>
+      </div>
+
+      <div>
+        <a href="https://www.youtube.com/watch?v=sNocjsSSRkE" target="_blank"
+   style="display:block;margin:20px 0;border-radius:12px;overflow:hidden;border:2px solid var(--ink);">
+        <img src="https://img.youtube.com/vi/sNocjsSSRkE/maxresdefault.jpg"
+            style="width:100%;display:block;"/>
+      </a>
+      </div>
+
+      <div class="home-cards">
+        <div class="home-card" data-go="needswants"><div class="num">01</div><div class="ico">⚖️</div><div class="lbl">Needs vs Wants</div></div>
+        <div class="home-card" data-go="mistakes"><div class="num">02</div><div class="ico">⚠️</div><div class="lbl">Common Mistakes</div></div>
+        <div class="home-card" data-go="budget"><div class="num">03</div><div class="ico">📊</div><div class="lbl">Budgeting Basics</div></div>
+        <div class="home-card" data-go="quiz"><div class="num">04</div><div class="ico">🎮</div><div class="lbl">Quiz / Game</div></div>
+      </div>
+    </section>
+
+    <!-- ══ INTRO ══ -->
+    <section class="panel" data-page="intro">
+      <p class="eyebrow">Lesson 1</p>
+      <h1 class="page-title">Introduction to Money Management</h1>
+
+      <!-- Still image infographic banner -->
+      <div class="img-banner" style="min-height:120px;">
+        <svg viewBox="0 0 900 120" xmlns="http://www.w3.org/2000/svg">
+          <rect width="900" height="120" fill="none"/>
+          <!-- Three pillars -->
+          <rect x="50" y="30" width="140" height="70" rx="10" fill="#5C7A4A" stroke="#1F2D20" stroke-width="2"/>
+          <text x="120" y="58" text-anchor="middle" font-size="20" fill="#fff">📋</text>
+          <text x="120" y="80" text-anchor="middle" font-family="Arial" font-size="13" fill="#fff" font-weight="700">Plan</text>
+          <rect x="240" y="30" width="140" height="70" rx="10" fill="#E8B339" stroke="#1F2D20" stroke-width="2"/>
+          <text x="310" y="58" text-anchor="middle" font-size="20" fill="#1F2D20">💰</text>
+          <text x="310" y="80" text-anchor="middle" font-family="Arial" font-size="13" fill="#1F2D20" font-weight="700">Save</text>
+          <rect x="430" y="30" width="140" height="70" rx="10" fill="#4C8C5B" stroke="#1F2D20" stroke-width="2"/>
+          <text x="500" y="58" text-anchor="middle" font-size="20" fill="#fff">🎯</text>
+          <text x="500" y="80" text-anchor="middle" font-family="Arial" font-size="13" fill="#fff" font-weight="700">Goal</text>
+          <rect x="620" y="30" width="140" height="70" rx="10" fill="#C65B4E" stroke="#1F2D20" stroke-width="2"/>
+          <text x="690" y="58" text-anchor="middle" font-size="20" fill="#fff">🚫</text>
+          <text x="690" y="80" text-anchor="middle" font-family="Arial" font-size="13" fill="#fff" font-weight="700">Avoid Debt</text>
+          <!-- arrows between -->
+          <text x="210" y="73" text-anchor="middle" font-size="22" fill="#1F2D20">→</text>
+          <text x="400" y="73" text-anchor="middle" font-size="22" fill="#1F2D20">→</text>
+          <text x="590" y="73" text-anchor="middle" font-size="22" fill="#1F2D20">→</text>
+        </svg>
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <img src="moneymanage.jpg" style="width:100%;border-radius:8px;margin-bottom:12px;"/>
+          <h2 class="section-title">What is Money Management?</h2>
+          <p>Money management is the process of planning, controlling and managing the use of money wisely and carefully. It involves how a person acquires, spends, saves and also manages money to achieve financial goals.</p>
+          <p>It is especially important for students — pocket money needs to be used carefully so it doesn't run out before the end of the month.</p>
+        </div>
+        <div class="card moss">
+          <img src="struggle.jpg" style="width:100%;border-radius:8px;margin-bottom:12px;"/>
+          <h2 class="section-title" style="color:#fff;">Why many students struggle</h2>
+          <ul class="clean">
+            <li>Impulsive purchases without thinking</li>
+            <li>Spending too much on entertainment</li>
+            <li>Failing to save any amount monthly</li>
+            <li>No plan or budget to follow</li>
+          </ul>
+          <br>
+          <h2 class="section-title" style="color:#fff;">Why it matters</h2>
+          <ul class="clean">
+            <li>Bad habits now = financial stress later</li>
+            <li>Good habits now = freedom later</li>
+            <li>Most students never learn this in school</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ NEEDS VS WANTS ══ -->
+    <section class="panel" data-page="needswants">
+      <p class="eyebrow">Lesson 2</p>
+      <h1 class="page-title">Needs vs Wants</h1>
+      <img src="needvswant.webp" style="width:100%;border-radius:12px;border:2px solid var(--ink);margin-bottom:16px;"/>
+
+      <div class="nw-grid">
+        <div class="nw-col">
+          <div class="nw-head need">✅ NEEDS — Must Have</div>
+          <ul class="nw-list">
+            <li>🍚 Food and groceries</li>
+            <li>📚 School supplies</li>
+            <li>🚌 Transportation to campus</li>
+            <li>🏠 Accommodation</li>
+            <li>📶 Internet access for learning</li>
+          </ul>
+        </div>
+        <div class="nw-col">
+          <div class="nw-head want">💛 WANTS — Nice to Have</div>
+          <ul class="nw-list">
+            <li>🎮 Unnecessary gadgets</li>
+            <li>📺 Premium entertainment subscriptions</li>
+            <li>👕 Trendy clothes or accessories</li>
+            <li>🎫 Concert tickets</li>
+            <li>☕ Fast food or coffee runs</li>
+          </ul>
+        </div>
+      </div>
+      <!-- Still image: visual metaphor -->
+      <div class="img-banner" style="min-height:100px;margin-bottom:16px;">
+        <svg viewBox="0 0 800 100" xmlns="http://www.w3.org/2000/svg">
+          <rect width="800" height="100" fill="none"/>
+          <text x="200" y="38" text-anchor="middle" font-family="Georgia,serif" font-size="24" font-weight="700" fill="#4C8C5B">NEED</text>
+          <text x="200" y="65" text-anchor="middle" font-family="Arial" font-size="13" fill="#1F2D20">Cannot live without it</text>
+          <text x="200" y="82" text-anchor="middle" font-size="20">🍚🏠🚌💊📚</text>
+          <line x1="390" y1="15" x2="390" y2="88" stroke="#1F2D20" stroke-width="3" stroke-dasharray="6,4"/>
+          <text x="390" y="56" text-anchor="middle" font-size="26">⚖️</text>
+          <text x="600" y="38" text-anchor="middle" font-family="Georgia,serif" font-size="24" font-weight="700" fill="#C8901E">WANT</text>
+          <text x="600" y="65" text-anchor="middle" font-family="Arial" font-size="13" fill="#1F2D20">Life is fine without it</text>
+          <text x="600" y="82" text-anchor="middle" font-size="20">🎮☕🎫👕✨</text>
+        </svg>
+      </div>
+
+
+      <div class="test-box">
+        <p class="q">"Can you live without it for ONE WEEK?"</p>
+        <div class="test-flow">
+          <div>✅ YES → It's a <strong>WANT</strong></div>
+          <div>❌ NO → It's a <strong>NEED</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ MISTAKES ══ -->
+    <section class="panel" data-page="mistakes">
+      <p class="eyebrow">Lesson 3</p>
+      <h1 class="page-title">Common Money Management Mistakes</h1>
+      <img src="mistakes.jpg" style="width:100%;border-radius:12px;border:2px solid var(--ink);margin-top:20px;"/>
+      <div class="mistake-card"><div class="mistake-num">01</div><div><h3>Not determining wants vs. needs</h3><p>Most students overspend because they prioritize wants over needs, which leads to wasting money.</p><p class="sol">✔ Solution: Use the ONE WEEK test before buying.</p></div></div>
+      <div class="mistake-card"><div class="mistake-num">02</div><div><h3>Not having a plan for their money</h3><p>No spending and savings plan leads to overspending and makes it harder to reach financial goals.</p><p class="sol">✔ Solution: Create a monthly budget (see next lesson).</p></div></div>
+      <div class="mistake-card"><div class="mistake-num">03</div><div><h3>Succumbing to peer pressure</h3><p>Many students spend more than they can afford because they're influenced by friends.</p><p class="sol">✔ Solution: Suggest cheaper activities to friends.</p></div></div>
+      <div class="mistake-card"><div class="mistake-num">04</div><div><h3>Misuse of student loans</h3><p>Students should only borrow for educational purposes to avoid a high debt burden later.</p><p class="sol">✔ Solution: Only borrow what is necessary for studies.</p></div></div>
+      <div class="ba-grid">
+        <div class="ba-col before"><h4>😟 Before — Poor habits</h4><ul class="clean"><li>Money gone in 2 weeks</li><li>Stressed about finances</li><li>Borrow from friends</li></ul></div>
+        <div class="ba-col after"><h4>😊 After — Good habits</h4><ul class="clean"><li>Money lasts all month</li><li>Peace of mind</li><li>Have savings, no debt</li></ul></div>
+      </div>
+      
+    </section>
+
+
+
+    <!-- ══ BUDGET ══ -->
+    <section class="panel" data-page="budget">
+      <p class="eyebrow">Lesson 4</p>
+      <h1 class="page-title">Budgeting Basics</h1>
+      <img src="savinghack.webp" style="width:100%;border-radius:12px;border:2px solid var(--ink);margin-bottom:20px;"/>
+      <div class="two-col">
+        <div class="card">
+          <h2 class="section-title">What is a budget?</h2>
+          <p>A budget is a financial document used to project future income and expenses. It plans future saving and spending as well as planned income and expenses.</p>
+          <h2 class="section-title" style="margin-top:16px;">Why is it important?</h2>
+          <p>Building a budget helps you control your spending habits. It helps you identify expenses that may be more than necessary so you can make smarter financial decisions.</p>
+        </div>
+        <div class="card gold">
+          <h2 class="section-title">📌 50/30/20 Rule</h2>
+          <p>Monthly Allowance: <strong>RM800</strong></p>
+          <div class="budget-bar">
+            <div class="seg-needs">NEEDS 50%</div>
+            <div class="seg-wants">WANTS 30%</div>
+            <div class="seg-savings">SAVE 20%</div>
+          </div>
+          <ul class="clean">
+            <li><strong>Needs (50%) = RM400</strong> → Food, transport, rent</li>
+            <li><strong>Wants (30%) = RM240</strong> → Entertainment, shopping</li>
+            <li><strong>Savings (20%) = RM160</strong> → Emergency fund, future goals</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ── VIDEO TUTORIAL SECTION ── -->
+      <div class="yt-section">
+        <h2 class="section-title" style="margin-top:28px;">🎬 Video Tutorial: 6 Steps to Create a Budget</h2>
+
+        <!--
+        ════════════════════════════════════════════════════════════════
+        TO ADD YOUR VIDEO (edit this file):
+        1. Delete the <div class="yt-placeholder">...</div> block below.
+        2. Uncomment and paste in the iframe block, replacing
+           YOUR_VIDEO_ID with the 11-character ID from your YouTube URL
+           e.g. https://www.youtube.com/watch?v=dQw4w9WgXcQ
+                                               ^^^^^^^^^^^^ this part
+
+        <div class="yt-frame-wrap">
+          <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID?rel=0"
+                  allowfullscreen title="Budget Tutorial"></iframe>
+        </div>
+        ════════════════════════════════════════════════════════════════
+        -->
+
+        <div class="yt-placeholder">
+          <div class="play-circle">▶</div>
+          <h3 style="margin:0 0 8px; font-family:var(--font-display);">Video coming soon!</h3>
+          <p style="margin:0; color:var(--moss-dark); font-size:.9rem;">
+            Our team is preparing a step-by-step video tutorial on how to create a simple monthly budget. 🎬
+          </p>
+        </div>
+
+      </div>
+
+      <!-- 6 steps remain below the video -->
+      <h2 class="section-title" style="margin-top:30px;">5 Steps to Create a Simple Budget</h2>
+      <ol class="step-list">
+        <li><strong>Determine your income</strong> — calculate and total all sources of monthly income to know how much is available for spending and saving.</li>
+        <li><strong>Create a list of monthly expenses</strong> — list and categorize expenses like food and necessities so you know where the money goes.</li>
+        <li><strong>Set savings goals</strong> — decide how much to save each month, e.g. 10%–20% of your income.</li>
+        <li><strong>Differentiate needs and wants</strong> — prioritize essential expenses first and reduce spending on non-essentials.</li>
+        <li><strong>Track and adjust your budget</strong> — review regularly to keep spending under control and reach your goals.</li>
+      </ol>
+    </section>
+
+    <!-- ══ TIPS ══ -->
+    <section class="panel" data-page="tips">
+      <p class="eyebrow">Lesson 5</p>
+      <h1 class="page-title">6 Smart Spending Tips for Students</h1>
+      <img src="tips.jpeg" style="width:100%;border-radius:12px;border:2px solid var(--ink);margin-bottom:20px;"/>
+      <div class="tip-grid">
+        <div class="tip-card"><div class="tipnum">TIP 1</div><span class="tipico">🗂️</span><strong>Make a monthly spending plan</strong><p style="font-size:.84rem;">Divide money for needs, wants and savings separately.</p></div>
+        <div class="tip-card"><div class="tipnum">TIP 2</div><span class="tipico">🚫</span><strong>Avoid impulse buying</strong><p style="font-size:.84rem;">Think before you buy — don't be swayed by promotions.</p></div>
+        <div class="tip-card"><div class="tipnum">TIP 3</div><span class="tipico">📒</span><strong>Track every expense</strong><p style="font-size:.84rem;">Record daily spending to see where money really goes.</p></div>
+        <div class="tip-card"><div class="tipnum">TIP 4</div><span class="tipico">🌿</span><strong>Embrace minimalism</strong><p style="font-size:.84rem;">Buy only what you need — avoid excessive purchases.</p></div>
+        <div class="tip-card"><div class="tipnum">TIP 5</div><span class="tipico">🏷️</span><strong>Use student discounts wisely</strong><p style="font-size:.84rem;">Only buy out of necessity, not just because it's discounted.</p></div>
+        <div class="tip-card"><div class="tipnum">TIP 6</div><span class="tipico">⚖️</span><strong>Compare prices before purchasing</strong><p style="font-size:.84rem;">Check several stores or platforms before deciding.</p></div>
+      </div>
+      <div class="bonus-box">
+        <h2 class="section-title">📌 Bonus Tips</h2>
+        <ul class="clean">
+          <li>Cook at home instead of eating out (save RM10–15 per meal)</li>
+          <li>Buy used textbooks (save 50–70%)</li>
+          <li>Walk or bike to class when possible</li>
+          <li>Share subscriptions (Netflix, Spotify) with friends</li>
+          <li>Wait 24 hours before buying anything over RM50</li>
+          <li>Bring a water bottle (save RM3–5 daily)</li>
+          <li>Use public transport instead of driving</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ══ QUIZ ══ -->
+    <section class="panel" data-page="quiz">
+      <p class="eyebrow">Assessment</p>
+      <h1 class="page-title">Interactive Quiz Game</h1>
+      <div style="text-align:center;margin-bottom:24px;">
+        <p style="font-family:var(--font-display);font-size:1.3rem;margin-bottom:14px;">Now let's take a quick catch up, shall we? 🎯</p>
+        <img src="letsquiz.gif" style="width:280px;border-radius:12px;border:2px solid var(--ink);"/>
+      </div>
+      <div class="quiz-wrap">
+        <div class="quiz-status">
+          <div class="lives">Lives: <span id="livesDisplay">❤️❤️❤️</span></div>
+          <div id="pointsDisplay">Points: 0</div>
+        </div>
+        <div class="quiz-progress" id="quizProgress">Question 1 of 10</div>
+        <div class="quiz-card" id="quizCard"></div>
+      </div>
+    </section>
+
+    <!-- ══ USER SUPPORT ══ -->
+    <section class="panel" data-page="support">
+      <p class="eyebrow">User Support</p>
+      <h1 class="page-title">User Support Features</h1>
+      <div class="support-grid">
+        <div class="support-card help-card">
+          <div class="support-card-header">
+            <span class="support-icon">🛟</span>
+            <h2 class="section-title" style="margin:0;">Help Function</h2>
+          </div>
+          <p>The <strong>? Help</strong> button appears at the bottom-right on every page. When clicked, it shows:</p>
+          <div class="how-to-box">
+            <div class="how-to-label">HOW TO USE THIS COURSEWARE</div>
+            <ol class="how-to-list">
+              <li>Click menu buttons to move between topics.</li>
+              <li>Read each lesson carefully.</li>
+              <li>Watch the video tutorial for real examples.</li>
+              <li>Take the quiz at the end.</li>
+            </ol>
+          </div>
+          <p style="margin-top:12px;font-size:.88rem;color:var(--moss-dark);">You can also use <strong>← Prev</strong> and <strong>Next →</strong> in the footer to go lesson by lesson.</p>
+        </div>
+        <div class="support-card faq-card">
+          <div class="support-card-header">
+            <span class="support-icon">❓</span>
+            <h2 class="section-title" style="margin:0;">FAQ</h2>
+          </div>
+          <div class="faq-item"><div class="q">Q: How long does this courseware take?</div><div>A: About 30–40 minutes to complete all lessons and the quiz.</div></div>
+          <div class="faq-item"><div class="q">Q: Can I retake the quiz?</div><div>A: Yes, you can retake the quiz unlimited times.</div></div>
+          <div class="faq-item"><div class="q">Q: Do I need to complete lessons in order?</div><div>A: Recommended, but you can jump to any topic via the nav bar.</div></div>
+          <div class="faq-item"><div class="q">Q: What if I run out of lives in the quiz?</div><div>A: The quiz ends and shows your score. Click "Try Again" to restart.</div></div>
+          <div class="faq-item"><div class="q">Q: Who is this courseware for?</div><div>A: Secondary school and university students aged 16–24.</div></div>
+        </div>
+      </div>
+
+      <!-- CONTACTS — group members -->
+      <div class="contacts-box">
+        <h2 class="section-title">📬 Contact Our Team</h2>
+        <p style="margin-bottom:16px;font-size:.9rem;">Have questions or feedback? Reach out to us — we'd love to hear from you!</p>
+        <div class="contact-member">
+          <div class="contact-avatar">AN</div>
+          <div class="contact-info"><div class="cname">Aifahdatul' Nuhaa Binti Mohd Arif</div><div class="cemail"><a href="mailto:2026120135@student.uitm.edu.my">2026120135@student.uitm.edu.my</a></div></div>
+        </div>
+        <div class="contact-member">
+          <div class="contact-avatar">NK</div>
+          <div class="contact-info"><div class="cname">Nur Khairunnisa 'Afifah Binti Nor Azman</div><div class="cemail"><a href="mailto:2026129819@student.uitm.edu.my">2026129819@student.uitm.edu.my</a></div></div>
+        </div>
+        <div class="contact-member">
+          <div class="contact-avatar">IN</div>
+          <div class="contact-info"><div class="cname">Iwanina Nursyazwina Binti Ibrahim</div><div class="cemail"><a href="mailto:2025778221@student.uitm.edu.my">2025778221@student.uitm.edu.my</a></div></div>
+        </div>
+        <div class="contact-member">
+          <div class="contact-avatar">NZ</div>
+          <div class="contact-info"><div class="cname">Nur Zahirah Binti Mohd Farid</div><div class="cemail"><a href="mailto:2025314051@student.uitm.edu.my">2025314051@student.uitm.edu.my</a></div></div>
+        </div>
+        <div class="contact-member">
+          <div class="contact-avatar">ND</div>
+          <div class="contact-info"><div class="cname">Nur Dalili Binti Shahrul Anuar</div><div class="cemail"><a href="mailto:2025197607@student.uitm.edu.my">2025197607@student.uitm.edu.my</a></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ ABOUT ══ -->
+    <section class="panel" data-page="about">
+      <p class="eyebrow">Group 2 · ELEK B</p>
+      <h1 class="page-title">About Our Team</h1>
+      <p>IML513 Group Project — Courseware Proposal.<br>Prepared for <strong>Madam Kasmarini Binti Baharuddin</strong>.</p>
+      
+      <!--
+      ════════════════════════════════════════════════════════════════
+      MEMBER PHOTOS — edit this file to add photos:
+      For each member, replace  src=""  with the path to their photo.
+      e.g.  src="photos/nuhaa.jpg"   or a full URL
+      If no photo is added the coloured circle with initials shows instead.
+      ════════════════════════════════════════════════════════════════
+      -->
+      <div class="team-grid">
+
+        <div class="team-card">
+          <div class="team-photo">
+            <!-- src="" → replace with photo path e.g. src="photos/nuhaa.jpg" -->
+            <img src="aifa.jpeg" alt="Aifahdatul' Nuhaa" class="member-img" onerror="this.style.display='none'"/>
+            
+          </div>
+          <div class="name">Aifahdatul' Nuhaa Binti Mohd Arif</div>
+          <div class="role">Instructional Analysis</div>
+          <div class="sid">2026120135</div>
+        </div>
+
+        <div class="team-card">
+          <div class="team-photo">
+            <!-- src="" → replace with photo path e.g. src="photos/afifah.jpg" -->
+            <img src="khairunnisa.jpeg" alt="Nur Khairunnisa" class="member-img" onerror="this.style.display='none'"/>
+            
+          </div>
+          <div class="name">Nur Khairunnisa 'Afifah Binti Nor Azman</div>
+          <div class="role">Storyboard &amp; Layout</div>
+          <div class="sid">2026129819</div>
+        </div>
+
+        <div class="team-card">
+          <div class="team-photo">
+            <!-- src="" → replace with photo path e.g. src="photos/iwanina.jpg" -->
+            <img src="syazwina.jpeg" alt="Iwanina Nursyazwina" class="member-img" onerror="this.style.display='none'"/>
+            
+          </div>
+          <div class="name">Iwanina Nursyazwina Binti Ibrahim</div>
+          <div class="role">Instructional Goal &amp; Target Audience</div>
+          <div class="sid">2025778221</div>
+        </div>
+
+        <div class="team-card">
+          <div class="team-photo">
+            <!-- src="" → replace with photo path e.g. src="photos/zahirah.jpg" -->
+            <img src="zahirah.jpeg" alt="Nur Zahirah" class="member-img" onerror="this.style.display='none'"/>
+
+          </div>
+          <div class="name">Nur Zahirah Binti Mohd Farid</div>
+          <div class="role">Learning Objectives</div>
+          <div class="sid">2025314051</div>
+        </div>
+
+        <div class="team-card">
+          <div class="team-photo">
+            <!-- src="" → replace with photo path e.g. src="photos/dalili.jpg" -->
+            <img src="dalili.jpg" alt="Nur Dalili" class="member-img" onerror="this.style.display='none'"/>
+            
+          </div>
+          <div class="name">Nur Dalili Binti Shahrul Anuar</div>
+          <div class="role">Assessment Items (Quiz, Game) &amp; Website Developer</div>
+          <div class="sid">2025197607</div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footbar">
+    <div class="grp">
+      <button id="prevBtn">← Prev</button>
+      <button id="homeBtn">Home</button>
+      <button id="nextBtn">Next →</button>
+    </div>
+    <div class="grp">
+      <button id="helpBtn">? Help</button>
+    </div>
+  </footer>
+</div>
+
+<!-- Help modal -->
+<div class="modal-overlay" id="helpModal">
+  <div class="modal-box">
+    <button class="modal-close" id="closeHelp">✕</button>
+    <h3>How to use this courseware</h3>
+    <ol>
+      <li>Click the menu buttons to move between topics.</li>
+      <li>Read each lesson carefully.</li>
+      <li>Watch the video tutorial on the Budget page.</li>
+      <li>Take the quiz at the end — you can retake it anytime.</li>
+    </ol>
+    <p style="font-size:.85rem;color:var(--moss-dark);">Use ← Prev / Next → in the footer to go lesson by lesson.</p>
+  </div>
+</div>
+
+<script>
+/* ── PAGES ── */
+const pages = ["home","intro","needswants","mistakes","budget","tips","quiz","support","about"];
+const labels = {home:"HOME",intro:"INTRO",needswants:"NEEDS VS WANTS",mistakes:"MONEY MANAGEMENT",budget:"BUDGET",tips:"TIPS",quiz:"QUIZ / GAME",support:"USER SUPPORT",about:"ABOUT US"};
+let currentIndex = 0;
+const navBtns = document.querySelectorAll('#navbar button');
+const panels = document.querySelectorAll('.panel');
+
+function goTo(page){
+  const idx = pages.indexOf(page);
+  if(idx===-1) return;
+  currentIndex = idx;
+  panels.forEach(p=>p.classList.toggle('active',p.dataset.page===page));
+  navBtns.forEach(b=>b.classList.toggle('active',b.dataset.page===page));
+  document.getElementById('progressTag').textContent=`LESSON ${idx+1} / ${pages.length} · ${labels[page]}`;
+  window.scrollTo(0,0);
+  document.getElementById('prevBtn').disabled = idx===0;
+  document.getElementById('nextBtn').disabled = idx===pages.length-1;
+  if(page==='quiz' && !quizStarted) startQuiz();
+  if(page==='home') spawnCoins();
+}
+
+navBtns.forEach(b=>b.addEventListener('click',()=>goTo(b.dataset.page)));
+document.querySelectorAll('[data-go]').forEach(el=>el.addEventListener('click',()=>goTo(el.dataset.go)));
+document.getElementById('prevBtn').addEventListener('click',()=>goTo(pages[Math.max(0,currentIndex-1)]));
+document.getElementById('nextBtn').addEventListener('click',()=>goTo(pages[Math.min(pages.length-1,currentIndex+1)]));
+document.getElementById('homeBtn').addEventListener('click',()=>goTo('home'));
+
+/* ── HELP MODAL ── */
+const helpModal = document.getElementById('helpModal');
+document.getElementById('helpBtn').addEventListener('click',()=>helpModal.classList.add('active'));
+document.getElementById('closeHelp').addEventListener('click',()=>helpModal.classList.remove('active'));
+helpModal.addEventListener('click',e=>{if(e.target===helpModal) helpModal.classList.remove('active');});
+
+/* ── FLOATING COINS ANIMATION (Home) ── */
+function spawnCoins(){
+  const wrap = document.getElementById('floatCoins');
+  wrap.innerHTML='';
+  const emojis=['🪙','💰','💵','💴','💶','💳','🏦'];
+  for(let i=0;i<18;i++){
+    const el=document.createElement('span');
+    el.className='fcoin';
+    el.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+    el.style.left=Math.random()*100+'%';
+    el.style.animationDuration=(6+Math.random()*8)+'s';
+    el.style.animationDelay=(Math.random()*6)+'s';
+    el.style.fontSize=(1+Math.random())+'rem';
+    wrap.appendChild(el);
+  }
+}
+
+/* ── YOUTUBE EMBED ── */
+/* YouTube embed — see HTML comment in Budget section */
+
+
+/* ── AUDIO — Web Audio API ambient tones ── */
+let audioOn=false;
+const audioWave=document.getElementById('audioWave');
+
+const studyAudio = document.getElementById('studyAudio');
+studyAudio.volume = 0.4;
+studyAudio.muted = false;
+
+
+document.getElementById('audioToggle').addEventListener('click',()=>{
+  if(!audioOn){
+    studyAudio.play();
+    audioWave.classList.remove('paused');
+    document.getElementById('audioToggle').textContent='🔊';
+    audioOn=true;
+  } else {
+    studyAudio.pause();
+    audioWave.classList.add('paused');
+    document.getElementById('audioToggle').textContent='🔇';
+    audioOn=false;
+  }
+});
+
+/* ── QUIZ ── */
+const quizQuestions=[
+  {q:"What is the best way to tell if something is a need or a want?",opts:["Ask if it's on sale","Ask if you can live without it for a week","Ask your friends","Ask if it's expensive"],correct:1},
+  {q:"You receive RM500 PTPTN allowance. Experts suggest saving at least 20%. How much should you save?",opts:["RM50","RM100","RM150","RM200"],correct:1},
+  {q:"Your rent (RM300) is due next week and you only have RM350. Friends invite you to a RM80 concert. What should you do?",opts:["Buy the ticket, YOLO","Pay rent first, skip the concert","Split the rent and go anyway","Borrow from friends for both"],correct:1},
+  {q:"Which is the BEST budgeting habit for a university student?",opts:["Spend first, save what's left","Save first, then spend what remains","Never track your expenses","Borrow from friends when you run out"],correct:1},
+  {q:"Which of these is a NEED rather than a WANT?",opts:["Concert tickets","Trendy clothes","Internet access for learning","Premium entertainment subscriptions"],correct:2},
+  {q:"In the 50/30/20 rule, what does the 30% represent?",opts:["Needs","Wants","Savings","Debt repayment"],correct:1},
+  {q:"What is the FIRST step in creating a simple budget?",opts:["Set savings goals","Track and adjust spending","Determine your income","Differentiate needs and wants"],correct:2},
+  {q:"What is a common money management mistake among college students?",opts:["Tracking every expense","Comparing prices before buying","Succumbing to peer pressure","Saving 20% of income"],correct:2},
+  {q:"What's a smart way to avoid impulse buying?",opts:["Buy immediately during a sale","Wait 24 hours before buying anything over RM50","Buy only because friends have it","Ignore your budget"],correct:1},
+  {q:"Why should students only borrow what's needed from student loans?",opts:["To buy gadgets","To avoid a high debt burden later","Loans are unlimited","It doesn't matter how much you borrow"],correct:1}
+];
+
+let quizStarted=false,qIndex=0,lives=3,points=0,order=[];
+
+function startQuiz(){
+  quizStarted=true; qIndex=0; lives=3; points=0;
+  order=[...quizQuestions]; renderQuestion();
+}
+function updateStatus(){
+  document.getElementById('livesDisplay').textContent="❤️".repeat(lives)+"🖤".repeat(3-lives);
+  document.getElementById('pointsDisplay').textContent="Points: "+points;
+  document.getElementById('quizProgress').textContent=`Question ${Math.min(qIndex+1,order.length)} of ${order.length}`;
+}
+function renderQuestion(){
+  updateStatus();
+  const card=document.getElementById('quizCard');
+  if(lives<=0){
+    card.innerHTML=`<div class="quiz-end"><div style="font-size:2.4rem">💸</div><h2 class="section-title">Out of lives!</h2><div class="score">${points} pts</div><p>Review the lessons and try again!</p><button class="retry-btn" onclick="startQuiz()">Try Again</button></div>`;
+    return;
+  }
+  if(qIndex>=order.length){
+    fireConfetti();
+    card.innerHTML=`<div class="quiz-end"><div style="font-size:2.4rem">🏆</div><h2 class="section-title">Quiz Complete!</h2><div class="score">${points} pts</div><p>Great job! You answered all ${order.length} questions.</p><button class="retry-btn" onclick="startQuiz()">Play Again</button></div>`;
+    return;
+  }
+  const item=order[qIndex];
+  card.innerHTML=`<div class="quiz-q">${item.q}</div><div class="quiz-opts">${item.opts.map((o,i)=>`<button class="quiz-opt" data-i="${i}">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}</div><div class="quiz-feedback" id="quizFeedback"></div>`;
+  card.querySelectorAll('.quiz-opt').forEach(btn=>btn.addEventListener('click',()=>answer(btn,item)));
+}
+function answer(btn,item){
+  const i=parseInt(btn.dataset.i);
+  document.querySelectorAll('.quiz-opt').forEach(o=>o.style.pointerEvents='none');
+  const fb=document.getElementById('quizFeedback');
+  if(i===item.correct){
+    btn.classList.add('correct'); points+=10;
+    fb.textContent="✅ Correct! +10 points"; fb.style.color="var(--good)";
+    playTone(880,0.15,'sine');
+  } else {
+    btn.classList.add('wrong'); document.querySelectorAll('.quiz-opt')[item.correct].classList.add('correct');
+    lives--; fb.textContent="❌ Not quite — losing a life."; fb.style.color="var(--bad)";
+    playTone(200,0.3,'sawtooth');
+  }
+  updateStatus();
+  setTimeout(()=>{qIndex++;renderQuestion();},1200);
+}
+
+/* ── QUIZ SOUND EFFECTS ── */
+function playTone(freq,dur,type='sine'){
+  try{
+    const ctx=new(window.AudioContext||window.webkitAudioContext)();
+    const o=ctx.createOscillator();
+    const g=ctx.createGain();
+    o.type=type; o.frequency.value=freq;
+    g.gain.setValueAtTime(0.2,ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+dur);
+    o.connect(g); g.connect(ctx.destination);
+    o.start(); o.stop(ctx.currentTime+dur);
+  } catch(e){}
+}
+
+/* ── CONFETTI ── */
+function fireConfetti(){
+  const wrap=document.getElementById('confettiWrap');
+  const colors=['#E8B339','#5C7A4A','#C65B4E','#F2C14E','#8FAE6E','#fff'];
+  for(let i=0;i<80;i++){
+    const el=document.createElement('div');
+    el.className='confetti-piece';
+    el.style.cssText=`left:${Math.random()*100}%;top:-10px;background:${colors[Math.floor(Math.random()*colors.length)]};width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;animation-duration:${2+Math.random()*2}s;animation-delay:${Math.random()*.8}s;`;
+    wrap.appendChild(el);
+  }
+  setTimeout(()=>wrap.innerHTML='',5000);
+}
+
+/* ── INIT ── */
+goTo('home');
+</script>
+</body>
+</html>
