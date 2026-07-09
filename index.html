@@ -551,19 +551,28 @@ footer.footbar{border-top:3px solid var(--ink);padding:12px 28px;display:flex;ju
       </div>
 
       <!-- ── VIDEO TUTORIAL SECTION ── -->
-      <div class="yt-section">
-        <h2 class="section-title" style="margin-top:28px;">🎬 Video Tutorial: 5 Steps to Create a Simple Budget</h2>
+<div class="yt-section">
+  <h2 class="section-title" style="margin-top:28px;">🎬 Video Tutorial: 6 Steps to Create a Budget</h2>
 
-        
+  <!-- Fixed thumbnail with fallback -->
+  <a href="https://www.youtube.com/watch?v=_MreMVHAZVk" target="_blank"
+     style="display:block;margin:20px 0;border-radius:12px;overflow:hidden;border:2px solid var(--ink);position:relative;">
+    <img 
+      src="https://img.youtube.com/vi/_MreMVHAZVk/maxresdefault.jpg" 
+      style="width:100%;display:block;"
+      alt="Budget Tutorial Thumbnail"
+      onerror="this.onerror=null;this.src='https://img.youtube.com/vi/_MreMVHAZVk/hqdefault.jpg'"/>
+    <!-- Play button overlay -->
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+                width:60px;height:60px;background:rgba(255,0,0,0.85);
+                border-radius:50%;display:flex;align-items:center;justify-content:center;
+                border:3px solid white;font-size:28px;color:white;font-family:Arial;">
+      ▶
+    </div>
+  </a>
+</div>
 
-        <div class="yt-frame-wrap">
-          <iframe src="https://youtu.be/_MreMVHAZVkrel=0"
-                  allowfullscreen title="Budget Tutorial"></iframe>
-        </div> 
-
-      </div>
-
-      <!-- 5 steps remain below the video -->
+      <!-- 6 steps remain below the video -->
       <h2 class="section-title" style="margin-top:30px;">5 Steps to Create a Simple Budget</h2>
       <ol class="step-list">
         <li><strong>Determine your income</strong> — calculate and total all sources of monthly income to know how much is available for spending and saving.</li>
